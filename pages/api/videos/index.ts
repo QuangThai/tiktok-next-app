@@ -19,7 +19,7 @@ export default async function handler(
 
   try {
     const resp = await axios.get(
-      `https://tiktok.fullstack.edu.vn/api/videos?type=for-you&page=1`,
+      `https://tiktok.fullstack.edu.vn/api/videos?type=for-you&page=1&l=5`,
       config
     );
     console.log(22222222, resp.data.data);

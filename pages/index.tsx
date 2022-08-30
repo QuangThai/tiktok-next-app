@@ -9,21 +9,9 @@ import axios from "axios";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  const { data } = useVideos({
-    type: "for-you",
-  });
-
-  async function getVideos() {
-    const resp = await axios.get(
-      `https://tiktok.fullstack.edu.vn/api/videos?type=for-you&page=1`
-    );
-    console.log(22222222, resp.data.data);
-  }
-
-  const { data: videos } = useSWR("videos", () => {
-    return getVideos();
-  });
-  console.log("videos", videos);
+  // const { data } = useVideos({
+  //   type: "for-you",
+  // });
 
   return (
     <>

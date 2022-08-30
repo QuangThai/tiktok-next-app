@@ -1,11 +1,14 @@
+import { Datum } from "@/types/video";
 import { ChatIcon, HeartIcon, ShareIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
 import VideoPlayer from "./VideoPlayer";
 
-const VideoSection = () => {
-  const isCurrentlyFollowed = false;
+export type Props = {
+  video: Datum;
+};
 
+const VideoSection = ({ video }: Props) => {
   return (
     <div className="flex items-start p-2 lg:p-4 gap-3">
       <Link href={`/user/id`}>
@@ -13,7 +16,7 @@ const VideoSection = () => {
           <Image
             width={60}
             height={60}
-            src="/1.jpg"
+            src={video?.user.avatar}
             className="rounded-full w-[30px] h-[30px] lg:w-[60px] lg:h-[60px]"
             alt=""
           />
@@ -23,13 +26,15 @@ const VideoSection = () => {
         <div className="flex">
           <div className="flex-grow">
             <Link href={`/user/id`}>
-              <a className="font-bold hover:underline mr-1">Quang Thái</a>
+              <a className="font-bold hover:underline mr-1">{`${video?.user?.first_name} ${video?.user?.last_name}`}</a>
             </Link>
             <Link href={`/user/id`}>
-              <a className="text-sm hover:underline">Quang Thái</a>
+              <a className="text-sm hover:underline">
+                {video?.user?.first_name}
+              </a>
             </Link>
             <p style={{ wordWrap: "break-word", overflowWrap: "break-word" }}>
-              Hello
+              {video?.user?.bio}
             </p>
           </div>
           {/* @ts-ignore */}
@@ -37,37 +42,41 @@ const VideoSection = () => {
             <div className="flex-shrink-0">
               <button
                 className={`py-1 px-3 rounded text-sm mt-2 ${
-                  isCurrentlyFollowed
+                  video?.user?.is_followed
                     ? "border hover:bg-[#F8F8F8] transition"
                     : "border border-pink text-pink hover:bg-[#FFF4F5] transition"
                 }`}
               >
-                {isCurrentlyFollowed ? "Following" : "Follow"}
+                {video?.user.is_followed ? "Following" : "Follow"}
               </button>
             </div>
           )}
         </div>
         <div className="flex items-end gap-5">
-          <Link href={`/video/id`}>
+          <Link href={`/video/${video?.id}`}>
             <a
               className={`${
                 true ? "md:h-[600px]" : "flex-grow h-auto"
               } block bg-[#3D3C3D] rounded-md overflow-hidden flex-grow h-auto md:flex-grow-0`}
             >
-              <VideoPlayer src="/2.mp4" poster="/2.mp4" />
+              <VideoPlayer src={video?.file_url} poster={video?.thumb_url} />
             </a>
           </Link>
           <div className="flex flex-col gap-1 lg:gap-2">
             <button className="lg:w-12 lg:h-12 w-7 h-7 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
               <HeartIcon className={`lg:w-7 lg:h-7 h-5 w-5 fill-pink`} />
             </button>
-            <p className="text-center text-xs font-semibold">234</p>
+            <p className="text-center text-xs font-semibold">
+              {video?.likes_count}
+            </p>
             <Link href={`/video/id`}>
               <a className="lg:w-12 lg:h-12 w-7 h-7 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
                 <ChatIcon className="lg:w-6 lg:h-6 h-4 w-4 scale-x-[-1]" />
               </a>
             </Link>
-            <p className="text-center text-xs font-semibold">23</p>
+            <p className="text-center text-xs font-semibold">
+              {video?.comments_count}
+            </p>
             <div className="relative group">
               <button className="lg:w-12 lg:h-12 w-7 h-7 bg-[#F1F1F2] fill-black flex justify-center items-center rounded-full">
                 <ShareIcon className="lg:w-8 lg:h-8 w-6 h-6" />

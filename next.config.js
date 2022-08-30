@@ -21,6 +21,7 @@ const PUBLIC_CONFIG = {
 const IMG_DOMAINS = [
   "lh3.googleusercontent.com",
   "platform-lookaside.fbsbx.com",
+  'files.fullstack.edu.vn'
 ];
 
 const nextConfig = {

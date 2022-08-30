@@ -5,6 +5,7 @@ const Video: FC<HTMLProps<HTMLVideoElement>> = (props) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [isPaused, setIsPaused] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     if (isPaused) {
@@ -26,7 +27,7 @@ const Video: FC<HTMLProps<HTMLVideoElement>> = (props) => {
         className="max-h-full w-auto"
         onPauseCapture={() => setIsPaused(true)}
         onPlayCapture={() => setIsPaused(false)}
-        muted={true}
+        muted={isMuted}
         playsInline
         loop
         controls={false}
@@ -45,11 +46,18 @@ const Video: FC<HTMLProps<HTMLVideoElement>> = (props) => {
           <PlayIcon className="fill-white h-7 w-7" />
         )}
       </button>
-      <button className="absolute bottom-4 right-3 z-10">
-        {true ? (
-          <VolumeOnIcon className="fill-white h-7 w-7" />
-        ) : (
+      <button
+        className="absolute bottom-4 right-3 z-10"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          setIsMuted(!isMuted);
+        }}
+      >
+        {isMuted ? (
           <VolumeOffIcon className="fill-white h-7 w-7" />
+        ) : (
+          <VolumeOnIcon className="fill-white h-7 w-7" />
         )}
       </button>
     </div>
