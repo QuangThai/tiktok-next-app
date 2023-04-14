@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import { useVideos } from "@/hooks/api/useVideos";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import VideoSection from "./VideoSection";
-import axios from "axios";
-import useSWR from "swr";
-import { Video } from "@/types/video";
 
 const Main = () => {
   const [page, setPage] = useState(1);
 
-  const getVideos = async (): Promise<Video> => {
-    const resp = await axios.get(
-      `https://tiktok.fullstack.edu.vn/api/videos?type=for-you&page=${page}`
-    );
-    return resp.data;
-  };
-
-  const { data, error } = useSWR("videos", () => {
-    return getVideos();
+  const { data, isError, isLoading } = useVideos({
+    type: "for-you",
+    page,
   });
 
-  if (!error && !data) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setPage((prev) => prev + 1);
+    }
+  }, [inView]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
 
   return (
     <div className="flex-grow">
@@ -27,7 +30,11 @@ const Main = () => {
         data?.data?.map((video) => (
           <VideoSection key={video.id} video={video} />
         ))}
-      <button onClick={() => setPage((prev) => prev + 1)}>Load More</button>
+
+      {Number(data?.meta?.pagination?.current_page) <
+      Number(data?.meta?.pagination?.total_pages) ? (
+        <button ref={ref}>Load more</button>
+      ) : null}
     </div>
   );
 };

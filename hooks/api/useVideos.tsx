@@ -1,7 +1,8 @@
-import useSWR from "swr";
+import useSWR from 'swr';
 
-import { API_LIST_VIDEO } from "@/site-settings/site-constants";
-import httpClient from "@/utils/httpClient";
+import { API_LIST_VIDEO } from '@/site-settings/site-constants';
+import httpClient from '@/utils/httpClient';
+import { Video } from '@/types/video';
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ const generateApiPath = ({ type, page }: ProjectParams) => {
 export async function getVideos({ type, page = 1 }: ProjectParams) {
   const url = generateApiPath({ type, page });
   const res = await httpClient.get(url);
-  const result: any = res.data;
+  const result: Video = res.data;
   return result;
 }
 

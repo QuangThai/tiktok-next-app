@@ -1,7 +1,12 @@
-import { FC, HTMLProps, useEffect, useRef, useState } from "react";
+import {
+  FC, useEffect,
+  useRef,
+  useState,
+  VideoHTMLAttributes
+} from "react";
 import { PauseIcon, PlayIcon, VolumeOffIcon, VolumeOnIcon } from "../Icons";
 
-const Video: FC<HTMLProps<HTMLVideoElement>> = (props) => {
+const Video: FC<VideoHTMLAttributes<HTMLVideoElement>> = (props) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [isPaused, setIsPaused] = useState(true);

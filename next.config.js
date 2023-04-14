@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-const { nextDefaultConfig } = require("./next.config.default");
+const { nextDefaultConfig } = require('./next.config.default');
 
 const DEFAULT_ENV_CONFIG = {
-  API_DOMAIN: "https://tiktok.fullstack.edu.vn",
+  API_DOMAIN: 'https://tiktok.fullstack.edu.vn',
 };
 
 const SERVER_CONFIG = {
@@ -19,9 +19,16 @@ const PUBLIC_CONFIG = {
 };
 
 const IMG_DOMAINS = [
-  "lh3.googleusercontent.com",
-  "platform-lookaside.fbsbx.com",
-  'files.fullstack.edu.vn'
+  'lh3.googleusercontent.com',
+  'platform-lookaside.fbsbx.com',
+  'files.fullstack.edu.vn',
+];
+
+const REWRITES = async () => [
+  {
+    source: '/proxy/api/:path*',
+    destination: 'https://tiktok.fullstack.edu.vn/api/:path*', // Proxy to Backend
+  },
 ];
 
 const nextConfig = {
@@ -33,6 +40,7 @@ const nextConfig = {
     domains: IMG_DOMAINS,
     minimumCacheTTL: 9999999,
   },
+  rewrites: REWRITES,
 };
 
 module.exports = nextConfig;
